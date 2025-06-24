@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recomandări Dispozitive Electronice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Definire variabile CSS pentru culori și umbre pentru consistență și ușurință în modificare */
+    :root {
+      /* TEMATICA: Culorile din codul anterior (Portocaliu, Gri, Roșu) */
+      --primary-color: #FF8C00; /* Portocaliu vibrant - pentru acțiuni primare, highlight-uri (inclusiv titlul H1) */
+      --secondary-color: #555555; /* Gri închis - pentru acțiuni secundare, titluri secțiuni */
+      --accent-color: #f44336; /* Roșu - pentru acțiuni de avertizare/ștertere, error messages */
+      --neutral-dark: #333333; /* Gri foarte închis - pentru fundaluri întunecate (header, footer) */
+      --neutral-light: #c0c0c0; /* Gri mediu - pentru fundalul principal al paginii */
+      --card-bg: #e0e0e0; /* Gri deschis - pentru fundalul cardurilor, modalelor */
+      --input-bg: #f0f0f0; /* Gri foarte deschis - pentru fundalul câmpurilor de input */
+      --text-dark: var(--neutral-dark); /* Alias pentru gri închis */
+      --text-light: #ffffff; /* Alb - pentru text pe fundal întunecat */
+      --border-color: #a0a0a0; /* Gri mediu - pentru borduri */
+      --favorite-color-base: #FFB066; /* Portocaliu deschis - pentru butonul de favorite */
+      --favorite-color-active: #FF9933; /* Portocaliu mediu - pentru starea "favoritat" și hover */
+
+      --shadow-light: rgba(0, 0, 0, 0.08); /* Umbra ușoară */
+      --shadow-medium: rgba(0, 0, 0, 0.15); /* Umbra medie */
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif; /* Font modern și lizibil */
+      margin: 0;
+      padding: 0;
+      background-color: var(--neutral-light); /* Fundal gri mediu */
+      color: var(--text-dark); /* Text gri închis */
+      line-height: 1.6; /* Îmbunătățește lizibilitatea textului */
+    }
+
+    header {
+      background-color: var(--neutral-dark); /* Fundal gri închis */
+      padding: 1.5em 1em; /* Mai mult padding vertical */
+      color: var(--text-light); /* Text alb */
+      text-align: center;
+      position: relative; /* Necesar pentru poziționarea absolută a status-ului */
+      box-shadow: 0 4px 10px var(--shadow-medium); /* Adaugă adâncime header-ului */
+      display: flex;
+      flex-direction: column; /* Stivuiește elementele pe verticală */
+      align-items: center;
+      gap: 1.5em; /* Spațiu între elementele din header */
+    }
+    header a {
+        color: inherit;
+        text-decoration: none;
+    }
+    header a:hover {
+         text-decoration: underline;
+    }
+
+
+    header h1 {
+        font-family: 'Poppins', sans-serif; /* Font impactant pentru titlu */
+        margin: 0; /* Elimină marginile implicite */
+        font-size: 2.8em; /* Titlu mai mare */
+        color: var(--primary-color); /* Culoare portocalie pentru titlu */
+        letter-spacing: -0.03em; /* Spațiere ușor mai strânsă a literelor */
+    }
+
+    /* Container NOU pentru status utilizator și buton logout în colțul dreapta sus */
+    .header-top-right-status {
+        position: absolute;
+        top: 15px; /* Ajustează distanța de sus */
+        right: 15px; /* Ajustează distanța de dreapta */
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Spațiu între butonul status și butonul logout */
+        z-index: 10; /* Asigură că este deasupra altor elemente */
+    }
+
+    /* Stil NOU pentru butonul care afișează numele și rolul utilizatorului */
+    #userStatusButton {
+        background-color: var(--primary-color); /* Fundal Portocaliu */
+        color: var(--text-light); /* Text Alb */
+        padding: 8px 15px; /* Padding intern */
+        border: none;
+        border-radius: 20px; /* Margini rotunjite */
+        cursor: default; /* Nu are comportament de buton interactiv (doar afișează info) */
+        font-size: 1em;
+        font-weight: 500;
+        transition: none; /* Fără tranziție la hover */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Umbră subtilă */
+        text-transform: none; /* Nu majuscule */
+        letter-spacing: normal;
+        display: none; /* Ascuns implicit, controlat de JS */
+    }
+
+
+    /* Container vechi pentru butoanele generale (modificat) */
+    .header-actions {
+        display: flex;
+        justify-content: center; /* Centrează butoanele */
+        align-items: center;
+        width: 100%; /* Ocupă lățimea completă */
+        flex-wrap: wrap; /* Permite înfășurarea pe ecrane mici */
+        gap: 1em; /* Spațiu între butoane */
+        /* Poziționarea și display-ul sunt acum separate de status */
+    }
+
+    /* #authStatus nu mai este necesar, eliminat */
+
+    #loginButton, #logoutButton, #addProductButton, #viewFavoritesButton {
+      padding: 12px 22px; /* Padding generos */
+      border: none;
+      border-radius: 25px; /* Butoane rotunde tip "pastilă" */
+      cursor: pointer;
+      font-size: 1.05em;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Tranziții pentru hover */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Umbră subtilă pentru butoane */
+      text-transform: uppercase; /* Text cu majuscule */
+      letter-spacing: 0.05em; /* Spațiere a literelor */
+      color: var(--text-light); /* Text alb pe butoane colorate */
+    }
+
+    #loginButton {
+        background-color: var(--secondary-color); /* Buton Login/Register - Gri închis */
+    }
+
+    #loginButton:hover {
+        background-color: #444444; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px); /* Efect de ridicare */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Umbră mai pronunțată */
+    }
+
+    #logoutButton {
+        /* Stilul butonului logout copiază stilul butonului status, dar cu accent-color */
+        background-color: var(--accent-color); /* Buton Logout - Roșu */
+        color: var(--text-light); /* Text Alb */
+        padding: 8px 15px; /* Padding intern */
+        border: none;
+        border-radius: 20px; /* Margini rotunjite */
+        font-size: 1em;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        text-transform: none; /* Nu majuscule */
+        letter-spacing: normal;
+        cursor: pointer;
+        display: none; /* Ascuns implicit, controlat de JS */
+    }
+
+    #logoutButton:hover {
+        background-color: #c82333; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+
+    #addProductButton {
+        background-color: var(--primary-color); /* Buton Adaugă Produs - Portocaliu */
+        display: none; /* Ascuns implicit, controlat de JS */
+    }
+
+    #addProductButton:hover {
+        background-color: #E07B00; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    #viewFavoritesButton { /* Stil pentru butonul de favorite */
+        background-color: var(--favorite-color-base); /* Portocaliu deschis pentru favorite */
+        color: var(--text-dark); /* Text gri închis pe fundal portocaliu deschis */
+        display: none; /* Ascuns implicit, controlat de JS */
+    }
+
+    #viewFavoritesButton:hover {
+        background-color: var(--favorite-color-active); /* Portocaliu mediu la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+
+    /* Căutare și Filtre */
+    #searchInput {
+      padding: 0.9em 1.5em; /* Mai mult padding */
+      border: 1px solid var(--border-color); /* Bordură gri mediu */
+      border-radius: 25px; /* Formă de pastilă */
+      font-size: 1.05em;
+      width: 90%; /* Ocupă mai multă lățime */
+      max-width: 600px; /* Lățime maximă */
+      box-sizing: border-box; /* Include padding-ul în lățime */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--input-bg); /* Fundal gri foarte deschis */
+      color: var(--text-dark); /* Text gri închis */
+    }
+
+    #searchInput::placeholder {
+        color: #666; /* Culoare placeholder ușor mai închisă */
+    }
+
+    #searchInput:focus {
+      border-color: var(--secondary-color); /* Bordură focus gri închis */
+      outline: none; /* Elimină outline-ul default */
+      box-shadow: 0 0 0 4px rgba(85, 85, 85, 0.3); /* Inel de focus mai moale (rgba din --secondary-color) */
+    }
+
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2em; /* Spațiu între filtre */
+      margin-top: 1.5em;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    #filters input, #filters select {
+      padding: 0.8em 1.2em;
+      border-radius: 12px; /* Colțuri mai rotunde */
+      border: 1px solid var(--border-color); /* Bordură gri mediu */
+      font-size: 1em;
+      min-width: 140px; /* Asigură o lățime minimă */
+      flex: 1; /* Permite elementelor să se extindă/micșoreze */
+      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--input-bg); /* Fundal gri foarte deschis */
+      color: var(--text-dark); /* Text gri închis */
+      /* Stiluri pentru a personaliza aspectul dropdown-ului (select) */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23666' d='M9.293 12.95l.707.707 4-4-1.414-1.414L10 10.828 6.707 7.536 5.293 8.95z'/%3E%3Csvg%3E"); /* Iconiță săgeată gri */
+      background-repeat: no-repeat;
+      background-position: right 0.7em top 50%, 0 0;
+      background-size: 0.8em auto, 100%;
+    }
+
+    #filters input:focus, #filters select:focus {
+      border-color: var(--secondary-color); /* Bordură focus gri închis */
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(85, 85, 85, 0.3); /* Inel de focus (rgba din --secondary-color) */
+    }
+
+    /* Conținut Principal */
+    main {
+      padding: 3em 1.5em; /* Padding generos în jurul conținutului */
+      max-width: 1300px; /* Lățime maximă pentru conținutul central */
+      margin: 0 auto; /* Centrează conținutul principal */
+    }
+
+    section {
+      margin-bottom: 3.5em; /* Spațiu mai mare între secțiuni */
+    }
+
+    h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--secondary-color); /* Culoare pentru titlurile de secțiune - Gri închis */
+        text-align: center;
+        margin-bottom: 2em; /* Spațiu sub titluri */
+        font-size: 2.4em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Grid pentru Recomandări */
+    #recommendations {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Grid responsiv */
+        gap: 1.5em; /* Spațiu între elementele grid-ului */
+    }
+
+    /* Card Dispozitiv */
+    .device-card {
+      background-color: var(--card-bg); /* Fundal gri deschis pentru carduri */
+      padding: 1.8em; /* Mai mult padding */
+      border-radius: 15px; /* Colțuri și mai rotunde */
+      box-shadow: 0 6px 20px var(--shadow-light); /* Umbră mai pronunțată, dar subtilă */
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Adaugă border-color la tranziție */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* Aliniază conținutul la începutul cardului */
+      align-items: center; /* Centrează conținutul orizontal în card */
+      text-align: center; /* Centrează textul din card */
+      border: 2px solid transparent; /* Bordură transparentă implicit, pentru a evita salturi de layout */
+    }
+
+    /* Stil NOU: Bordură roșie pentru cardurile favorite */
+    .device-card.is-favorited-card {
+        border-color: var(--accent-color); /* Bordură roșie subțire */
+    }
+
+    .device-card:hover {
+      transform: translateY(-8px); /* Efect de ridicare mai pronunțat */
+      box-shadow: 0 12px 30px var(--shadow-medium); /* Umbră mai adâncă la hover */
+    }
+
+    /* Stiluri pentru caseta de acțiuni deasupra */
+    .device-actions {
+        width: 100%; /* Ocupă toată lățimea cardului */
+        display: flex;
+        justify-content: flex-end; /* Aliniază butoanele la dreapta */
+        gap: 10px;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid var(--border-color); /* Bordură gri mediu */
+        z-index: 10;
+        box-sizing: border-box; /* Asigură că padding-ul nu adaugă la lățimea totală */
+    }
+
+    .device-actions button {
+        padding: 9px 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95em;
+        font-weight: 500;
+        transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        color: var(--text-light); /* Text alb pe butoane colorate */
+    }
+
+    .device-actions button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .device-actions button.edit-btn {
+        background-color: var(--secondary-color); /* Buton editare - Gri închis */
+    }
+
+    .device-actions button.edit-btn:hover {
+        background-color: #444444; /* Nuanță mai închisă la hover */
+    }
+
+    .device-actions button.delete-btn {
+        background-color: var(--accent-color); /* Buton ștergere - Roșu */
+    }
+
+    .device-actions button.delete-btn:hover {
+        background-color: #c82333; /* Nuanță mai închisă la hover */
+    }
+
+    /* NOU: Stiluri pentru butonul de favorite */
+    .device-actions button.favorite-btn {
+        background-color: var(--favorite-color-base); /* Portocaliu deschis pentru favorite */
+        color: var(--text-dark); /* Text gri închis */
+    }
+    .device-actions button.favorite-btn.favorited {
+        background-color: var(--favorite-color-active); /* Portocaliu mediu când e favorit */
+        color: var(--text-light); /* Text alb */
+    }
+    .device-actions button.favorite-btn:hover {
+        background-color: var(--favorite-color-active); /* Portocaliu mediu la hover */
+    }
+
+    /* Stiluri pentru imaginea produsului in card */
+    .product-image {
+        max-width: 100%;
+        height: 200px; /* Setează o înălțime fixă pentru toate imaginile */
+        object-fit: contain; /* Asigură că imaginea este conținută în spațiu fără a fi tăiată */
+        border-radius: 8px;
+        margin-bottom: 1em;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Stil pentru placeholder-ul de imagine când nu există imagine */
+    .product-image-placeholder {
+        width: 100%;
+        height: 200px; /* Aceeași înălțime fixă ca și imaginile */
+        background-color: var(--input-bg); /* Un fundal gri foarte deschis */
+        border-radius: 8px;
+        margin-bottom: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-style: italic;
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+
+    .device-card h3 {
+        color: var(--primary-color); /* Nume produs în card - Portocaliu */
+        margin-top: 0;
+        margin-bottom: 0.7em;
+        font-size: 1.7em;
+        font-weight: 600;
+        min-height: 2.5em; /* Asigură o înălțime minimă pentru titlu */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%; /* Ocupă lățimea completă pentru centrare */
+    }
+
+    .device-card p {
+        margin-bottom: 0.4em;
+        font-size: 1.05em;
+        color: #444; /* Text informații produs - Gri mediu */
+        min-height: 1.2em; /* Asigură o înălțime minimă pentru fiecare paragraf */
+        width: 100%; /* Ocupă lățimea completă pentru centrare */
+    }
+
+
+    .no-results {
+      text-align: center;
+      font-style: italic;
+      color: #666; /* Gri mediu */
+      margin-top: 2.5em;
+      font-size: 1.2em;
+    }
+     .no-results.error {
+        color: var(--accent-color); /* Roșu pentru erori */
+     }
+
+    /* Statistici Populare */
+    #popularList {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grid responsiv */
+        gap: 1em;
+    }
+
+    #popularList li {
+        background-color: var(--card-bg); /* Fundal gri deschis */
+        padding: 1em 1.5em;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px var(--shadow-light);
+        font-size: 1.1em;
+        color: #444; /* Text gri mediu */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #popularList li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px var(--shadow-medium);
+    }
+
+    /* Stil pentru mesajul informativ sub statistici */
+    #popularStatsInfo {
+        text-align: center;
+        font-style: italic;
+        color: #666; /* Gri mediu */
+        margin-top: 1em;
+        font-size: 1em;
+    }
+
+
+    /* Stiluri Modal */
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6); /* Fundal semi-transparent întunecat */
+      display: none;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg); /* Fundal gri deschis */
+      padding: 35px;
+      border: none;
+      width: 90%;
+      max-width: 580px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-medium);
+      position: relative;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .close-button {
+      color: #999; /* Gri deschis */
+      font-size: 36px;
+      font-weight: bold;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+      color: var(--accent-color); /* Roșu la hover/focus */
+    }
+
+    .modal-content h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--secondary-color); /* Titlu modal - Gri închis */
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.3em;
+      font-weight: 600;
+    }
+
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-content label {
+      font-weight: 600;
+      color: #555; /* Gri închis */
+      margin-bottom: 5px;
+      font-size: 1.05em;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content input[type="password"],
+    .modal-content input[type="number"],
+    .modal-content input[type="url"],
+    .modal-content select {
+      padding: 14px;
+      border: 1px solid var(--border-color); /* Bordură gri mediu */
+      border-radius: 12px;
+      font-size: 1.05em;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--input-bg); /* Fundal gri foarte deschis */
+      color: var(--text-dark); /* Text gri închis */
+    }
+
+    .modal-content input[type="text"]:focus,
+    .modal-content input[type="password"]:focus,
+    .modal-content input[type="number"]:focus,
+    .modal-content input[type="url"]:focus,
+    .modal-content select:focus {
+      border-color: var(--secondary-color); /* Bordură focus gri închis */
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(85, 85, 85, 0.3); /* Inel de focus (rgba din --secondary-color) */
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .modal-buttons button {
+      color: var(--text-light); /* Text alb */
+      padding: 14px 30px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Stil specific pentru butonul Conectare și Butonul Update Produs (în afara modal-buttons, preia de aici default) */
+    #loginSubmit, #updateProduct {
+         background-color: var(--secondary-color); /* Buton Conectare/Update - Gri închis */
+    }
+
+    #loginSubmit:hover, #updateProduct:hover {
+        background-color: #444444; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    #registerSubmit {
+        background-color: var(--primary-color); /* Buton Înregistrare - Portocaliu */
+    }
+    #registerSubmit:hover {
+        background-color: #E07B00; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Stil specific pentru butoanele de submit produs nou */
+    #submitProduct {
+         background-color: var(--primary-color); /* Buton Adaugă Produs (modal) - Portocaliu */
+    }
+    #submitProduct:hover {
+        background-color: #E07B00; /* Nuanță mai închisă la hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+
+    /* Mesaje de status */
+    #statusMessage, #addProductStatusMessage, #editProductStatusMessage {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 1em;
+    }
+
+    #statusMessage.success, #addProductStatusMessage.success, #editProductStatusMessage.success {
+      color: #155724; /* Verde închis */
+      background-color: #d4edda; /* Verde deschis */
+      border: 1px solid #c3e6cb; /* Bordură verde */
+    }
+
+    #statusMessage.error, #addProductStatusMessage.error, #editProductStatusMessage.error {
+      color: #721c24; /* Roșu închis */
+      background-color: #f8d7da; /* Roșu deschis */
+      border: 1px solid #f5c6cb; /* Bordură roșie */
+    }
+
+    /* Animații */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+
+    /* Design Responsiv */
+    @media (max-width: 992px) {
+        #recommendations, #popularList {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1.5em 0.8em;
+        gap: 1.2em;
+      }
+
+      header h1 {
+        font-size: 2.2em;
+      }
+
+      /* Adjusted positioning and layout for small screens */
+      .header-top-right-status {
+          position: static; /* Remove absolute positioning */
+          display: flex !important; /* Ensure flex display */
+          flex-direction: column; /* Stack buttons vertically */
+          align-items: center; /* Center vertically */
+          width: 100%; /* Take full width */
+          gap: 8px; /* Smaller gap */
+          margin-top: 1em; /* Add space below the title */
+      }
+       #userStatusButton, #logoutButton {
+           width: 100%; /* Full width on mobile */
+           padding: 10px 15px; /* Adjusted padding */
+           font-size: 0.95em; /* Smaller font */
+           border-radius: 18px; /* Adjusted rounding */
+       }
+
+      .header-actions {
+          flex-direction: column;
+          gap: 0.8em;
+      }
+
+      #searchInput {
+        width: 95%;
+        padding: 0.8em 1.2em;
+        font-size: 0.95em;
+      }
+
+      #filters {
+        flex-direction: column;
+        width: 95%;
+        gap: 0.8em;
+      }
+
+      #filters input, #filters select {
+        width: 100%;
+        min-width: unset;
+        padding: 0.7em 1em;
+        font-size: 0.9em;
+      }
+
+      main {
+        padding: 2em 0.8em;
+      }
+
+      h2 {
+        font-size: 2em;
+        margin-bottom: 1.8em;
+      }
+
+      #recommendations, #popularList {
+        grid-template-columns: 1fr;
+      }
+
+      .device-card {
+        padding: 1.5em;
+      }
+
+      .device-card h3 {
+        font-size: 1.4em;
+      }
+
+      .device-card p {
+        font-size: 1.05em;
+      }
+
+      /* Butoanele de acțiune întotdeauna vizibile pe mobil */
+      .device-actions {
+          position: static;
+          display: flex !important; /* Ensure it's always flex */
+          justify-content: flex-end;
+          margin-top: 0.5em;
+          gap: 8px;
+          padding-bottom: 0.5em;
+          border-bottom: 1px solid var(--border-color);
+      }
+      .device-actions button {
+          padding: 8px 12px;
+          font-size: 0.85em;
+          border-radius: 6px;
+      }
+
+      .modal-content {
+        padding: 25px;
+        width: 95%;
+      }
+
+      .modal-content h2 {
+        font-size: 2em;
+      }
+
+      .modal-content input, .modal-content select {
+          padding: 10px;
+          font-size: 0.95em;
+          border-radius: 10px;
+      }
+      .modal-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .modal-buttons button {
+          width: 100%;
+          padding: 12px 20px;
+          font-size: 1em;
+          border-radius: 12px;
+      }
+
+      /* Ajustare responsive pentru boxul RSS */
+      .rss-box {
+          padding: 1em 1.5em; /* Ajustează paddingul pe mobil */
+          margin: 1em auto; /* Ajustează marginul pe mobil */
+      }
+       /* Ajustează paddingul general al footerului dacă e nevoie */
+        footer {
+            padding: 1em 0.8em;
+        }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+
+       /* Ajustare responsive și mai mică pentru butoanele din colț */
+      .header-top-right-status {
+           gap: 6px;
+           margin-top: 0.8em;
+      }
+       #userStatusButton, #logoutButton {
+           padding: 8px 12px;
+           font-size: 0.9em;
+           border-radius: 15px;
+       }
+
+      #searchInput {
+          padding: 0.7em 1em;
+          font-size: 0.9em;
+          border-radius: 18px;
+      }
+
+      #filters input, #filters select {
+          padding: 0.6em 0.8em;
+          font-size: 0.85em;
+          border-radius: 10px;
+      }
+
+      h2 {
+          font-size: 1.6em;
+      }
+
+      .device-card {
+          padding: 1em;
+      }
+      .device-card h3 {
+        font-size: 1.1em;
+      }
+      .device-card p {
+        font-size: 0.85em;
+      }
+      .device-actions button {
+          padding: 5px 8px;
+          font-size: 0.75em;
+      }
+
+      .modal-content {
+          padding: 18px;
+      }
+      .modal-content h2 {
+          font-size: 1.7em;
+      }
+      .modal-content input, .modal-content select {
+          padding: 10px;
+          font-size: 0.95em;
+          border-radius: 10px;
+      }
+      .modal-buttons button {
+          padding: 10px 15px;
+          font-size: 0.95em;
+          border-radius: 12px;
+      }
+      .close-button {
+          font-size: 30px;
+          top: 10px;
+          right: 15px;
+      }
+
+      /* Ajustare responsive și mai mică pentru boxul RSS */
+      .rss-box {
+           padding: 0.8em 1em;
+           margin: 0.8em auto;
+           font-size: 0.9em; /* Font size slightly smaller */
+      }
+       .rss-box a {
+           font-size: 1em; /* Link text size */
+       }
+       footer {
+          padding: 0.8em 0.5em;
+       }
+    }
+
+    /* Stil nou pentru boxul RSS din footer */
+    .rss-box {
+        background-color: var(--card-bg); /* Fundal gri deschis, similar cu cardurile */
+        padding: 1em 2em; /* Padding intern */
+        border-radius: 10px; /* Colțuri rotunde */
+        box-shadow: 0 3px 10px var(--shadow-light); /* Umbră subtilă */
+        display: flex; /* Folosim flexbox pentru a centra conținutul */
+        justify-content: center; /* Centrează orizontal conținutul (linkul) */
+        align-items: center; /* Centrează vertical conținutul (linkul) */
+        width: fit-content; /* Boxul se ajustează la lățimea conținutului */
+        margin: 1.5em auto; /* Centrează boxul orizontal în footer și adaugă spațiu sus/jos */
+        max-width: 90%; /* Asigură că nu este prea lat pe ecrane mari */
+        text-align: center; /* Center the text inside the box */
+    }
+
+    /* Stil specific pentru linkul din interiorul boxului RSS */
+    .rss-box a {
+        color: var(--primary-color); /* Culoare link - PORTOCALIU */
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        font-size: 1.1em; /* Păstrează dimensiunea fontului din footer */
+    }
+
+    .rss-box a:hover {
+        color: #E07B00; /* Nuanță mai închisă a portocaliului la hover */
+        text-decoration: underline;
+    }
+
+    /* Ajustare padding footer general dacă este necesar, acum că boxul are propriul margin */
+     footer {
+       background-color: var(--neutral-dark);
+       color: var(--text-light);
+       text-align: center;
+       padding: 1.5em 1em; /* Padding redus dacă boxul are deja margin vertical */
+       box-shadow: 0 -4px 10px var(--shadow-medium);
+       font-size: 1.1em; /* Se poate muta stilul de font din .rss-box a aici dacă tot footerul are acest stil */
+     }
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">
+        <h1>Recomandări Dispozitive Electronice</h1>
+    </a>
+    <!-- NOU: Container pentru status utilizator și buton logout în colțul dreapta sus -->
+    <div class="header-top-right-status">
+         <button id="userStatusButton" style="display: none;"></button>
+         <button id="logoutButton" style="display: none;">Deconectare</button>
+    </div>
+
+    <div class="header-actions">
+        <button id="addProductButton" style="display: none;">Adaugă Produs</button>
+        <button id="viewFavoritesButton" style="display: none;">Favoritele mele</button>
+        <button id="loginButton">Conectare/Înregistrare</button>
+        <!-- id="authStatus" și conținutul său au fost eliminate -->
+    </div>
+    <input type="text" id="searchInput" placeholder="Caută după model sau caracteristici...">
+    <div id="filters">
+      <input type="number" id="minPrice" placeholder="Preț minim" min="0">
+      <input type="number" id="maxPrice" placeholder="Preț maxim" min="0">
+      <input type="number" id="batteryLife" placeholder="Autonomie (ore)" min="0">
+      <select id="deviceType">
+        <option value="">Toate tipurile</option>
+        <option value="telefon">Telefon</option>
+        <option value="tableta">Tabletă</option>
+        <option value="ceas">Ceas</option>
+        <option value="drona">Dronă</option>
+        <option value="laptop">Laptop</option>
+        <option value="casti">Căști</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section id="recommendationsList">
+        <h2>Recomandări</h2>
+        <div id="recommendations"></div>
+    </section>
+
+    <section id="popularStats">
+      <h2>Statistici populare</h2>
+      <ul id="popularList"></ul>
+      <p id="popularStatsInfo" style="text-align: center; font-style: italic; color: #888; margin-top: 1em;">
+        Această secțiune necesită un endpoint de backend dedicat pentru statistici populare, care nu este încă implementat în server.js.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="rss-box">
+        <a href="/rss">RSS Feed</a>
+    </div>
+  </footer>
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button login-close-button">×</span>
+      <h2>Conectare sau Înregistrare</h2>
+      <form id="authForm">
+        <label for="username">Nume utilizator:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Parolă:</label>
+        <input type="password" id="password" name="password" required>
+
+        <div class="modal-buttons">
+          <button type="button" id="loginSubmit">Conectare</button>
+          <button type="button" id="registerSubmit">Înregistrare</button>
+        </div>
+      </form>
+      <div id="statusMessage"></div>
+    </div>
+  </div>
+
+  <div id="addProductModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button add-product-close-button">×</span>
+      <h2>Adaugă Produs Nou</h2>
+      <form id="productForm">
+        <label for="productNameInput">Nume Produs:</label>
+        <input type="text" id="productNameInput" required>
+
+        <label for="productPriceInput">Preț:</label>
+        <input type="number" id="productPriceInput" step="0.01" required min="0">
+
+        <label for="productBatteryLifeInput">Autonomie Baterie (ore):</label>
+        <input type="number" id="productBatteryLifeInput" min="0">
+
+        <label for="productTypeInput">Tip Produs:</label>
+        <select id="productTypeInput" required>
+            <option value="">Selectează un tip</option>
+            <option value="telefon">Telefon</option>
+            <option value="tableta">Tabletă</option>
+            <option value="ceas">Ceas</option>
+            <option value="drona">Dronă</option>
+            <option value="laptop">Laptop</option>
+            <option value="casti">Căști</option>
+        </select>
+
+        <label for="productFeaturesInput">Caracteristici (separate prin virgulă):</label>
+        <input type="text" id="productFeaturesInput" placeholder="Ex: 5G, iOS, Face ID" required>
+
+        <label for="productLinkInput">Link Produs (opțional):</label>
+        <input type="url" id="productLinkInput" placeholder="Ex: https://exemplu.com/produs">
+
+        <label for="productImageInput">URL Imagine Produs (opțional):</label>
+        <input type="url" id="productImageInput" placeholder="Ex: https://exemplu.com/imagine.jpg">
+
+        <div class="modal-buttons">
+          <button type="submit" id="submitProduct">Adaugă Produs</button>
+        </div>
+      </form>
+      <div id="addProductStatusMessage"></div>
+    </div>
+  </div>
+
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button edit-product-close-button">×</span>
+            <h2>Editează Produs</h2>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+
+                <label for="editProductNameInput">Nume Produs:</label>
+                <input type="text" id="editProductNameInput" required>
+
+                <label for="editProductPriceInput">Preț:</label>
+                <input type="number" id="editProductPriceInput" step="0.01" required min="0">
+
+                <label for="editProductBatteryLifeInput">Autonomie Baterie (ore):</label>
+                <input type="number" id="editProductBatteryLifeInput" min="0">
+
+                <label for="editProductTypeInput">Tip Produs:</label>
+                <select id="editProductTypeInput" required>
+                    <option value="">Selectează un tip</option>
+                    <option value="telefon">Telefon</option>
+                    <option value="tableta">Tabletă</option>
+                    <option value="ceas">Ceas</option>
+                    <option value="drona">Dronă</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="casti">Căști</option>
+                </select>
+
+                <label for="editProductFeaturesInput">Caracteristici (separate prin virgulă):</label>
+                <input type="text" id="editProductFeaturesInput" placeholder="Ex: 5G, iOS, Face ID" required>
+
+                <label for="editProductLinkInput">Link Produs (opțional):</label>
+                <input type="url" id="editProductLinkInput" placeholder="Ex: https://exemplu.com/produs">
+
+                <label for="editProductImageInput">URL Imagine Produs (opțional):</label>
+                <input type="url" id="editProductImageInput" placeholder="Ex: https://exemplu.com/imagine.jpg">
+
+                <div class="modal-buttons">
+                    <button type="submit" id="updateProduct">Actualizează Produs</button>
+                </div>
+            </form>
+            <div id="editProductStatusMessage"></div>
+        </div>
+    </div>
+
+
+  <script>
+    const recommendationsListSection = document.getElementById('recommendationsList');
+    const popularStatsSection = document.getElementById('popularStats');
+    const popularStatsInfo = document.getElementById('popularStatsInfo');
+
+    // NOILE ELEMENTE PENTRU STATUS UTILIZATOR
+    const userStatusButton = document.getElementById('userStatusButton');
+    // userStatusButton își ia textul din localStorage acum
+
+    async function fetchRecommendations(query = '') {
+      const minPrice = document.getElementById('minPrice').value;
+      const maxPrice = document.getElementById('maxPrice').value;
+      const batteryLife = document.getElementById('batteryLife').value;
+      const deviceType = document.getElementById('deviceType').value;
+      const userRole = localStorage.getItem('userRole');
+      const token = localStorage.getItem('token');
+
+      const params = new URLSearchParams({
+        q: query,
+        minPrice,
+        maxPrice,
+        batteryLife,
+        deviceType
+      });
+
+      try {
+          const res = await fetch(`/api/recommendations?${params.toString()}`);
+          if (!res.ok) {
+              console.error('Failed to fetch recommendations:', res.status, res.statusText);
+               document.getElementById('recommendations').innerHTML = '<p class="no-results error">Eroare la încărcarea recomandărilor.</p>';
+               return;
+          }
+          let data = await res.json();
+          const container = document.getElementById('recommendations');
+          container.innerHTML = '';
+
+          if (data.length === 0) {
+            container.innerHTML = '<p class="no-results">Nu s-au găsit recomandări conform filtrelor.</p>';
+            return;
+          }
+
+          if (token) {
+              const favoriteProductIds = new Set();
+              try {
+                  const favRes = await fetch('/api/favorites', {
+                      headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  if (favRes.ok) {
+                      const favProducts = await favRes.json();
+                      favProducts.forEach(fav => favoriteProductIds.add(fav.id));
+                  } else {
+                      console.warn('Nu s-a putut prelua lista de favorite:', favRes.status);
+                  }
+              } catch (favError) {
+                  console.error('Eroare la preluarea listei de favorite pentru UI:', favError);
+              }
+
+              data = data.map(device => ({
+                  ...device,
+                  isFavorited: favoriteProductIds.has(device.id)
+              }));
+          }
+
+
+          data.forEach(device => {
+            const div = document.createElement('div');
+            div.className = 'device-card';
+            // ADĂUGĂ CLASA is-favorited-card DACĂ PRODUSUL ESTE FAVORIT
+            if (device.isFavorited) {
+                div.classList.add('is-favorited-card');
+            }
+            div.dataset.productId = device.id;
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'device-actions';
+
+            if (userRole === 'admin') {
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Editează';
+                editButton.className = 'edit-btn';
+                editButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openEditProductModal(device.id);
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Șterge';
+                deleteButton.className = 'delete-btn';
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (confirm('Ești sigur că vrei să ștergi acest produs?')) {
+                        deleteProduct(device.id);
+                    }
+                });
+                actionsDiv.appendChild(editButton);
+                actionsDiv.appendChild(deleteButton);
+            }
+
+            if (token) {
+                const favoriteButton = document.createElement('button');
+                favoriteButton.textContent = device.isFavorited ? 'Elimină din Favorite' : 'Adaugă la Favorite';
+                favoriteButton.className = 'favorite-btn';
+                if (device.isFavorited) {
+                    favoriteButton.classList.add('favorited');
+                }
+                favoriteButton.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    if (device.isFavorited) {
+                        await removeFromFavorites(device.id);
+                    } else {
+                        await addToFavorites(device.id);
+                    }
+                    fetchRecommendations(document.getElementById('searchInput').value); // Refresh list to update button state
+                });
+                actionsDiv.appendChild(favoriteButton);
+            }
+
+            div.insertBefore(actionsDiv, div.firstChild);
+
+            // Add image element or placeholder
+            if (device.image) {
+                const img = document.createElement('img');
+                img.src = device.image;
+                img.alt = device.name;
+                img.className = 'product-image';
+                div.appendChild(img);
+            } else {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'product-image-placeholder';
+                placeholder.textContent = 'Fără imagine';
+                div.appendChild(placeholder);
+            }
+
+
+            const contentHTML = `
+              <h3>${device.name}</h3>
+              <p>Preț: ${device.price} Lei</p>
+              <p>Caracteristici: ${device.features.join(', ')}</p>
+            `;
+             const tempDiv = document.createElement('div');
+             tempDiv.innerHTML = contentHTML;
+             while(tempDiv.firstChild) {
+                 div.appendChild(tempDiv.firstChild);
+             }
+
+            div.addEventListener('click', (e) => {
+                if (!e.target.closest('.device-actions button')) {
+                     window.location.href = `/product-details.html?product_id=${device.id}`;
+                }
+            });
+            container.appendChild(div);
+          });
+      } catch (error) {
+           console.error('Error fetching recommendations:', error);
+           document.getElementById('recommendations').innerHTML = '<p class="no-results error">Eroare la încărcarea recomandărilor.</p>';
+      }
+    }
+
+    async function fetchPopularStats() {
+        const popularList = document.getElementById('popularList');
+        popularList.innerHTML = '';
+        if (popularStatsInfo) {
+           popularStatsInfo.style.display = 'block';
+        }
+
+        try {
+            const res = await fetch('/api/popular');
+            if (res.ok) {
+                const popularData = await res.json();
+                if (popularData && popularData.length > 0) {
+                    popularList.innerHTML = '';
+                    if (popularStatsInfo) { popularStatsInfo.style.display = 'none'; }
+                    popularData.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `${item.name || item.model || item.type} (${item.views || item.count} vizualizări)`;
+                        popularList.appendChild(li);
+                    });
+                } else {
+                    popularList.innerHTML = '<li>Nu sunt statistici populare disponibile.</li>';
+                    if (popularStatsInfo) { popularStatsInfo.style.display = 'none'; }
+                }
+            } else {
+                console.warn('Endpoint /api/popular not found or returned error:', res.status, res.statusText);
+                 popularList.innerHTML = '<li>Nu sunt statistici populare disponibile momentan.</li>';
+                 // Keep the info message visible if the endpoint isn't working as expected
+                 if (popularStatsInfo) { popularStatsInfo.style.display = 'block'; }
+            }
+        } catch (error) {
+            console.error('Error fetching popular stats:', error);
+            popularList.innerHTML = '<li>A apărut o eroare la încărcarea statisticilor populare.</li>';
+            // Keep the info message visible on network error
+            if (popularStatsInfo) { popularStatsInfo.style.display = 'block'; }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('input', () => {
+      fetchRecommendations(document.getElementById('searchInput').value);
+    });
+
+    document.querySelectorAll('#filters input[type="number"]').forEach(el => {
+      el.addEventListener('input', function() {
+          if (this.valueAsNumber < 0) {
+              this.value = 0;
+          }
+           fetchRecommendations(document.getElementById('searchInput').value);
+      });
+    });
+
+     document.querySelectorAll('#filters select').forEach(el => {
+       el.addEventListener('input', function() {
+           fetchRecommendations(document.getElementById('searchInput').value);
+       });
+     });
+
+
+    // --- Logica Modalului de Login/Înregistrare ---
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const loginModal = document.getElementById('loginModal');
+    const closeLoginButton = document.querySelector('.login-close-button');
+    const loginSubmitButton = document.getElementById('loginSubmit');
+    const registerSubmitButton = document.getElementById('registerSubmit');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const statusMessageDiv = document.getElementById('statusMessage');
+    // Eliminat authStatusDiv și welcomeMessageSpan din referințe, deoarece structura HTML s-a schimbat
+
+    let tokenExpiryCheckInterval;
+
+    loginButton.addEventListener('click', () => {
+      loginModal.style.display = 'flex';
+      statusMessageDiv.textContent = '';
+      statusMessageDiv.className = '';
+      usernameInput.value = '';
+      passwordInput.value = '';
+    });
+
+    closeLoginButton.addEventListener('click', () => {
+      loginModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target == loginModal) {
+        loginModal.style.display = 'none';
+      }
+    });
+
+    function showAuthStatusMessage(message, type) {
+      statusMessageDiv.textContent = message;
+      statusMessageDiv.className = type;
+    }
+
+    function decodeJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error("Failed to decode JWT:", e);
+            return null;
+        }
+    }
+
+    function checkTokenExpiry() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = decodeJwt(token);
+            if (decodedToken && decodedToken.exp) {
+                const currentTime = Date.now() / 1000;
+                if (decodedToken.exp < currentTime) {
+                    console.log("Token expired. Logging out...");
+                    logoutUser();
+                    return;
+                }
+            }
+        }
+        if (!token && tokenExpiryCheckInterval) {
+             clearInterval(tokenExpiryCheckInterval);
+             tokenExpiryCheckInterval = null;
+        }
+    }
+
+    function updateAuthUI() {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('userRole');
+      const username = localStorage.getItem('username');
+      const addProductButton = document.getElementById('addProductButton');
+      const viewFavoritesButton = document.getElementById('viewFavoritesButton'); // S-a mutat în header-actions
+      const userStatusButton = document.getElementById('userStatusButton'); // Noul buton de status
+      const headerTopRightStatusDiv = document.querySelector('.header-top-right-status'); // Noul container
+
+      if (tokenExpiryCheckInterval) {
+          clearInterval(tokenExpiryCheckInterval);
+          tokenExpiryCheckInterval = null;
+      }
+
+      if (token && role && username) {
+        // Logged in state
+        loginButton.style.display = 'none'; // Hide Login button
+        headerTopRightStatusDiv.style.display = 'flex'; // Show top-right status container
+        userStatusButton.style.display = 'block'; // Show user status button
+        logoutButton.style.display = 'block'; // Show logout button
+        viewFavoritesButton.style.display = 'block'; // Show favorites button (remains in header-actions)
+
+
+        userStatusButton.textContent = `${username} (${role})`; // Set text for status button
+
+
+        if (role === 'admin') {
+            addProductButton.style.display = 'block'; // Show add product for admin
+        } else {
+            addProductButton.style.display = 'none'; // Hide add product for non-admin
+        }
+
+        tokenExpiryCheckInterval = setInterval(checkTokenExpiry, 5000); // Start token check interval
+      } else {
+        // Logged out state
+        loginButton.style.display = 'block'; // Show Login button
+        headerTopRightStatusDiv.style.display = 'none'; // Hide top-right status container
+        userStatusButton.style.display = 'none'; // Hide user status button
+        logoutButton.style.display = 'none'; // Hide logout button
+        addProductButton.style.display = 'none'; // Hide add product button
+        viewFavoritesButton.style.display = 'none'; // Hide favorites button
+
+        userStatusButton.textContent = ''; // Clear text for status button
+      }
+      // Aceste apeluri sunt acum centralizate aici, asigurând o singură execuție la actualizarea UI
+      fetchRecommendations(document.getElementById('searchInput').value);
+      fetchPopularStats();
+    }
+
+    loginSubmitButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showAuthStatusMessage(data.message, 'success');
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userRole', data.role);
+          localStorage.setItem('username', data.username);
+          updateAuthUI();
+          setTimeout(() => {
+            loginModal.style.display = 'none';
+          }, 1500);
+        } else {
+          showAuthStatusMessage(data.message || 'Eroare la conectare.', 'error');
+        }
+      } catch (error) {
+        console.error('Eroare la conectare:', error);
+        showAuthStatusMessage('Eroare la conectare. Vă rugăm să încercați din nou.', 'error');
+      }
+    });
+
+    registerSubmitButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+
+      const minLength = 6;
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasDigit = /\d/.test(password);
+
+      if (password.length < minLength) {
+        showAuthStatusMessage(`Parola trebuie să aibă minim ${minLength} caractere.`, 'error');
+        return;
+      }
+      if (!hasUppercase) {
+        showAuthStatusMessage('Parola trebuie să conțină cel puțin o literă mare.', 'error');
+        return;
+      }
+      if (!hasDigit) {
+        showAuthStatusMessage('Parola trebuie să conțină cel puțin o cifră.', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showAuthStatusMessage(data.message, 'success');
+           // Clear fields only on success
+          usernameInput.value = '';
+          passwordInput.value = '';
+        } else {
+          showAuthStatusMessage(data.message || 'Eroare la înregistrare.', 'error');
+        }
+      } catch (error) {
+        console.error('Eroare la înregistrare:', error);
+        showAuthStatusMessage('Eroare la înregistrare. Vă rugăm să încercați din nou.', 'error');
+      }
+    });
+
+    function logoutUser() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('username');
+      if (tokenExpiryCheckInterval) {
+          clearInterval(tokenExpiryCheckInterval);
+          tokenExpiryCheckInterval = null;
+      }
+      updateAuthUI();
+    }
+    logoutButton.addEventListener('click', logoutUser);
+
+    viewFavoritesButton.addEventListener('click', () => {
+        window.location.href = '/favorites.html';
+    });
+
+
+    // --- Logica Modalului de Adăugare Produs ---
+    const addProductModal = document.getElementById('addProductModal');
+    const closeAddProductButton = document.querySelector('.add-product-close-button');
+    const submitProductButton = document.getElementById('submitProduct');
+    const productNameInput = document.getElementById('productNameInput');
+    const productPriceInput = document.getElementById('productPriceInput');
+    const productBatteryLifeInput = document.getElementById('productBatteryLifeInput');
+    const productTypeInput = document.getElementById('productTypeInput');
+    const productFeaturesInput = document.getElementById('productFeaturesInput');
+    const productLinkInput = document.getElementById('productLinkInput');
+    const productImageInput = document.getElementById('productImageInput');
+    const addProductStatusMessageDiv = document.getElementById('addProductStatusMessage');
+
+    document.getElementById('addProductButton').addEventListener('click', () => {
+      addProductModal.style.display = 'flex';
+      addProductStatusMessageDiv.textContent = '';
+      addProductStatusMessageDiv.className = '';
+      document.getElementById('productForm').reset();
+    });
+
+    closeAddProductButton.addEventListener('click', () => {
+      addProductModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target == addProductModal) {
+        addProductModal.style.display = 'none';
+      }
+    });
+
+    function showAddProductStatusMessage(message, type) {
+        addProductStatusMessageDiv.textContent = message;
+        addProductStatusMessageDiv.className = type;
+    }
+
+    submitProductButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        const name = productNameInput.value.trim();
+        const price = parseFloat(productPriceInput.value);
+        const batteryLife = productBatteryLifeInput.value ? parseInt(productBatteryLifeInput.value, 10) : null;
+        const type = productTypeInput.value;
+        const features = productFeaturesInput.value.split(',').map(f => f.trim()).filter(f => f.length > 0);
+        const link = productLinkInput.value.trim();
+        const image = productImageInput.value.trim();
+
+        if (!name || isNaN(price) || price <= 0 || !type || features.length === 0) {
+            showAddProductStatusMessage('Vă rugăm să completați toate câmpurile obligatorii: Nume, Preț valid (>0), Tip și cel puțin o Caracteristică.', 'error');
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showAddProductStatusMessage('Nu sunteți autentificat. Vă rugăm să vă conectați ca administrator.', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ name, price, batteryLife, type, features, link, image })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showAddProductStatusMessage(data.message, 'success');
+                document.getElementById('productForm').reset();
+                updateAuthUI(); // Va reîncărca lista de recomandări și statistici
+                setTimeout(() => {
+                    addProductModal.style.display = 'none';
+                }, 1500);
+            } else {
+                showAddProductStatusMessage(data.message || 'Eroare la adăugarea produsului.', 'error');
+            }
+        } catch (error) {
+            console.error('Eroare la adăugarea produsului:', error);
+            showAddProductStatusMessage('A apărut o eroare la trimiterea datelor. Vă rugăm să încercați din nou.', 'error');
+        }
+    });
+
+    // --- Logica Modalului de Editare Produs ---
+    const editProductModal = document.getElementById('editProductModal');
+    const closeEditProductButton = document.querySelector('.edit-product-close-button');
+    const updateProductButton = document.getElementById('updateProduct');
+    const editProductIdInput = document.getElementById('editProductId');
+    const editProductNameInput = document.getElementById('editProductNameInput');
+    const editProductPriceInput = document.getElementById('editProductPriceInput');
+    const editProductBatteryLifeInput = document.getElementById('editProductBatteryLifeInput');
+    const editProductTypeInput = document.getElementById('editProductTypeInput');
+    const editProductFeaturesInput = document.getElementById('editProductFeaturesInput');
+    const editProductLinkInput = document.getElementById('editProductLinkInput');
+    const editProductImageInput = document.getElementById('editProductImageInput');
+    const editProductStatusMessageDiv = document.getElementById('editProductStatusMessage');
+
+    function showEditProductStatusMessage(message, type) {
+        editProductStatusMessageDiv.textContent = message;
+        editProductStatusMessageDiv.className = type;
+    }
+
+    async function openEditProductModal(productId) {
+        editProductStatusMessageDiv.textContent = '';
+        editProductStatusMessageDiv.className = '';
+
+        try {
+            const userRole = localStorage.getItem('userRole');
+            const token = localStorage.getItem('token');
+            if (userRole !== 'admin' || !token) {
+                 alert('Nu aveți permisiunea de a edita produse.');
+                 return;
+            }
+
+            const res = await fetch(`/api/products/${productId}`, {
+                 headers: {
+                    'Authorization': `Bearer ${token}`
+                 }
+            });
+            const product = await res.json();
+
+            if (res.ok) {
+                editProductIdInput.value = product.id;
+                editProductNameInput.value = product.name;
+                editProductPriceInput.value = product.price;
+                editProductBatteryLifeInput.value = product.batterylife || '';
+                editProductTypeInput.value = product.type;
+                editProductFeaturesInput.value = product.features.join(', ');
+                editProductLinkInput.value = product.link && product.link !== 'null' ? product.link : '';
+                editProductImageInput.value = product.image && product.image !== 'null' ? product.image : '';
+
+                editProductModal.style.display = 'flex';
+            } else {
+                showEditProductStatusMessage(product.message || `Eroare la preluarea datelor produsului (Status: ${res.status}).`, 'error');
+                 editProductModal.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error fetching product for edit:', error);
+            showEditProductStatusMessage('A apărut o eroare la încărcarea datelor produsului pentru editare. Verificați conexiunea și autentificarea.', 'error');
+             editProductModal.style.display = 'none';
+        }
+    }
+
+    closeEditProductButton.addEventListener('click', () => {
+      editProductModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target == editProductModal) {
+        editProductModal.style.display = 'none';
+      }
+    });
+
+    updateProductButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        const productId = editProductIdInput.value;
+        const name = editProductNameInput.value.trim();
+        const price = parseFloat(editProductPriceInput.value);
+        const batteryLife = editProductBatteryLifeInput.value ? parseInt(editProductBatteryLifeInput.value, 10) : null;
+        const type = editProductTypeInput.value;
+        const features = editProductFeaturesInput.value.split(',').map(f => f.trim()).filter(f => f.length > 0);
+        const link = editProductLinkInput.value.trim();
+        const image = editProductImageInput.value.trim();
+
+         if (!productId || !name || isNaN(price) || price <= 0 || !type || features.length === 0) {
+            showEditProductStatusMessage('Vă rugăm să completați toate câmpurile obligatorii: Nume, Preț valid (>0), Tip și cel puțin o Caracteristică.', 'error');
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showEditProductStatusMessage('Nu sunteți autentificat. Vă rugăm să vă conectați ca administrator.', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ name, price, batteryLife, type, features, link, image })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showEditProductStatusMessage(data.message, 'success');
+                updateAuthUI(); // Va reîncărca lista de recomandări și statistici
+                setTimeout(() => {
+                    editProductModal.style.display = 'none';
+                }, 1500);
+            } else {
+                showEditProductStatusMessage(data.message || `Eroare la actualizarea produsului (Status: ${response.status}).`, 'error');
+            }
+        } catch (error) {
+            console.error('Eroare la actualizarea produsului:', error);
+            showEditProductStatusMessage('A apărut o eroare la trimiterea datelor de actualizare. Verificați conexiunea și autentificarea.', 'error');
+        }
+    });
+
+    async function deleteProduct(productId) {
+        const token = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+
+        if (userRole !== 'admin' || !token) {
+            alert('Nu aveți permisiunea de a șterge produse. Vă rugăm să vă conectați ca administrator.');
+            return;
+        }
+
+        if (!confirm('Ești sigur că vrei să ștergi acest produs?')) {
+             return;
+        }
+
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                updateAuthUI(); // Va reîncărca lista de recomandări și statistici
+            } else {
+                alert(data.message || `Eroare la ștergerea produsului (Status: ${response.status}).`);
+            }
+        } catch (error) {
+            console.error('Eroare la ștergerea produsului:', error);
+            alert('A apărut o eroare la ștergerea produsului. Verificați conexiunea și autentificarea.');
+        }
+    }
+
+    async function addToFavorites(productId) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Trebuie să fii autentificat pentru a adăuga produse la favorite.');
+            return;
+        }
+        try {
+            const response = await fetch('/api/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ productId })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                // alert(data.message); // Oprim alerta pentru a fi mai puțin intruziv
+            } else {
+                alert(data.message || 'Eroare la adăugarea la favorite.');
+            }
+        } catch (error) {
+            console.error('Eroare la adăugarea la favorite:', error);
+            alert('A apărut o eroare de rețea la adăugarea la favorite.');
+        }
+    }
+
+    async function removeFromFavorites(productId) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Trebuie să fii autentificat pentru a elimina produse din favorite.');
+            return;
+        }
+        try {
+            const response = await fetch(`/api/favorites/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+            if (response.ok) {
+                // alert(data.message); // Oprim alerta
+            } else {
+                alert(data.message || 'Eroare la eliminarea din favorite.');
+            }
+        } catch (error) {
+            console.error('Eroare la eliminarea din favorite:', error);
+            alert('A apărut o eroare de rețea la eliminarea din favorite.');
+        }
+    }
+
+
+    // Actualizare UI inițială la încărcarea paginii
+    // Aceasta este singura chemare care declanșează toată logica de inițializare a datelor și UI.
+    updateAuthUI();
+  </script>
+</body>
+</html>

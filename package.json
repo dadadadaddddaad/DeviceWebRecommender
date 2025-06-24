@@ -1,0 +1,16 @@
+{
+    "name": "device-recommendations",
+    "description": "Electronic device recommendation system",
+    "authors": "author",
+    "version": "1.0.0",
+    "main": "server.js",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "rss": "^1.2.2",
+        "pg": "^8.12.0",
+        "bcryptjs": "^2.4.3",
+        "jsonwebtoken": "^9.0.2",
+        "node-fetch": "^2.6.1", 
+        "cheerio": "^1.0.0-rc.12" 
+    }
+}
